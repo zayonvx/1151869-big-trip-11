@@ -1,7 +1,7 @@
 # Личный проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
 * Студент: [Владислав Зайончковский](https://up.htmlacademy.ru/ecmascript/11/user/1151869).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Пасунько](https://htmlacademy.ru/profile/id702351).
 
 ---
 
