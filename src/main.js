@@ -325,30 +325,30 @@ const createTripEventTemplate = () => {
   );
 };
 
-const render = (container, template, place) => {
+const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const siteTripMainElement = document.querySelector(`.trip-main`);
-const siteTripMenuElement = siteTripMainElement.querySelector(`.trip-controls`);
-const sitePageMainElement = document.querySelector(`.page-main`);
-const siteTripEventElement = sitePageMainElement.querySelector(`.trip-events`);
+const TripMainElement = document.querySelector(`.trip-main`);
+const TripMenuElement = TripMainElement.querySelector(`.trip-controls`);
+const PageMainElement = document.querySelector(`.page-main`);
+const TripEventElement = PageMainElement.querySelector(`.trip-events`);
 
-render(siteTripMainElement, createTripTemplate(), `afterbegin`);
-const siteTripInfo = siteTripMainElement.querySelector(`.trip-info`);
-render(siteTripInfo, createCostTemplate(), `beforeend`);
+render(TripMainElement, createTripTemplate(), `afterbegin`);
+const TripInfo = TripMainElement.querySelector(`.trip-info`);
+render(TripInfo, createCostTemplate());
 
-render(siteTripMenuElement, createMenuTemplate(), `beforeend`);
-render(siteTripMenuElement, createFilterTemplate(), `beforeend`);
-render(siteTripEventElement, createSortTemplate(), `beforeend`);
-render(siteTripEventElement, createContentTemplate(), `beforeend`);
+render(TripMenuElement, createMenuTemplate());
+render(TripMenuElement, createFilterTemplate());
+render(TripEventElement, createSortTemplate());
+render(TripEventElement, createContentTemplate());
 
-render(siteTripEventElement, createTripDaysWrapper(), `beforeend`);
-const siteTripDaysWrapper = siteTripEventElement.querySelector(`.trip-days`);
-render(siteTripDaysWrapper, createTripDayTemplate(), `beforeend`);
-const siteDayEventWrapper = siteTripDaysWrapper.querySelector(`.trip-events__list`);
+render(TripEventElement, createTripDaysWrapper());
+const TripDaysWrapper = TripEventElement.querySelector(`.trip-days`);
+render(TripDaysWrapper, createTripDayTemplate());
+const DayEventWrapper = TripDaysWrapper.querySelector(`.trip-events__list`);
 
 for (let i = 0; i < EVENT_COUNT; i++) {
-  render(siteDayEventWrapper, createTripEventTemplate(), `beforeend`);
+  render(DayEventWrapper, createTripEventTemplate());
 }
 
