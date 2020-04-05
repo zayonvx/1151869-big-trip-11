@@ -1,6 +1,6 @@
 "use strict";
 
-const TASK_COUNT = 3;
+const EVENT_COUNT = 3;
 
 const createTripTemplate = () => {
   return (
@@ -267,6 +267,64 @@ const createContentTemplate = () => {
   );
 };
 
+const createTripDaysWrapper = () => {
+  return (
+    `<ul class="trip-days">
+    </ul>`
+  );
+};
+
+const createTripDayTemplate = () => {
+  return (
+    `<li class="trip-days__item  day">
+      <div class="day__info">
+        <span class="day__counter">1</span>
+        <time class="day__date" datetime="2019-03-18">MAR 18</time>
+      </div>
+      <ul class="trip-events__list"></ul>
+    </li>`
+  );
+};
+
+const createTripEventTemplate = () => {
+  return (
+    `<li class="trip-events__item">
+    <div class="event">
+      <div class="event__type">
+        <img class="event__type-icon" width="42" height="42" src="img/icons/drive.png" alt="Event type icon">
+      </div>
+      <h3 class="event__title">Drive to Chamonix</h3>
+
+      <div class="event__schedule">
+        <p class="event__time">
+          <time class="event__start-time" datetime="2019-03-18T14:30">14:30</time>
+          &mdash;
+          <time class="event__end-time" datetime="2019-03-18T16:05">16:05</time>
+        </p>
+        <p class="event__duration">1H 35M</p>
+      </div>
+
+      <p class="event__price">
+        &euro;&nbsp;<span class="event__price-value">160</span>
+      </p>
+
+      <h4 class="visually-hidden">Offers:</h4>
+      <ul class="event__selected-offers">
+        <li class="event__offer">
+          <span class="event__offer-title">Rent a car</span>
+          &plus;
+          &euro;&nbsp;<span class="event__offer-price">200</span>
+         </li>
+      </ul>
+
+      <button class="event__rollup-btn" type="button">
+        <span class="visually-hidden">Open event</span>
+      </button>
+    </div>
+  </li>`
+  );
+};
+
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
@@ -277,13 +335,20 @@ const sitePageMainElement = document.querySelector(`.page-main`);
 const siteTripEventElement = sitePageMainElement.querySelector(`.trip-events`);
 
 render(siteTripMainElement, createTripTemplate(), `afterbegin`);
-
 const siteTripInfo = siteTripMainElement.querySelector(`.trip-info`);
-
 render(siteTripInfo, createCostTemplate(), `beforeend`);
 
 render(siteTripMenuElement, createMenuTemplate(), `beforeend`);
 render(siteTripMenuElement, createFilterTemplate(), `beforeend`);
 render(siteTripEventElement, createSortTemplate(), `beforeend`);
 render(siteTripEventElement, createContentTemplate(), `beforeend`);
+
+render(siteTripEventElement, createTripDaysWrapper(), `beforeend`);
+const siteTripDaysWrapper = siteTripEventElement.querySelector(`.trip-days`);
+render(siteTripDaysWrapper, createTripDayTemplate(), `beforeend`);
+const siteDayEventWrapper = siteTripDaysWrapper.querySelector(`.trip-events__list`);
+
+for (let i = 0; i < EVENT_COUNT; i++) {
+  render(siteDayEventWrapper, createTripEventTemplate(), `beforeend`);
+}
 
