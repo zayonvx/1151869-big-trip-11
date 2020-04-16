@@ -43,12 +43,12 @@ const createPhotos = (url) => {
 
 
 export const createEventFormTemplate = (EVENT) => {
-  const {type, city, price, startDate, endDate, options, info} = EVENT
+  const {type, city, price, startDate, endDate, options, info} = EVENT;
   const optionMarkup = createOptionsListForm(options);
   const typeMarkupTransport = EVENT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
   const typeMarkupPoint = POINT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
   const descriptionMarkup = createDescription(info.description);
-  const photosMarkup = info.photos.map((it) => createPhotos(it)).join(`\n`);;
+  const photosMarkup = info.photos.map((it) => createPhotos(it)).join(`\n`);
   const startTime = formatTime(startDate);
   const endTime = formatTime(endDate);
   return (

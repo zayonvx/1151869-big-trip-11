@@ -18,4 +18,4 @@ const generateDaysCounts = (count) => {
 
 const DAYS = generateDaysCounts(DAYS_COUNT);
 
-export {DAYS}
+export {DAYS};

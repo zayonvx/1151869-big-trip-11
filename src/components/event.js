@@ -15,7 +15,7 @@ const createOptionsList = (EVENT_OPTIONS) => {
 };
 
 export const createTripEventTemplate = (EVENTS) => {
-  const {type, city, price, startDate, endDate, options} = EVENTS
+  const {type, city, price, startDate, endDate, options} = EVENTS;
   const startTime = formatTime(startDate);
   const endTime = formatTime(endDate);
   const timeDiff = endDate - startDate;

@@ -24,7 +24,7 @@ const generateEvent = () => {
   };
 };
 
-const generateEvents = (count, date) => {
+const generateEvents = (count) => {
   return new Array(count)
   .fill(``).map(() => generateEvent())
   .sort((a, b) => a.startDate - b.startDate);

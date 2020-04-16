@@ -75,7 +75,7 @@ const mathTotalPrice = (events) => {
       optionsPrice += events[i].options[j].cost;
     }
   }
-  return overallPrice + optionsPrice
+  return overallPrice + optionsPrice;
 };
 
 export {getRandomIntegerNumber, getRandomArrayItem, getRandomBoolean, buildArray, getRandomDate, formatTime, formatTimeDiff, buildCitiesString, mathTotalPrice};
