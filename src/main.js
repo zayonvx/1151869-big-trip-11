@@ -11,8 +11,6 @@ import {getHeader} from "./utils.js";
 import {EVENTS} from "./mock/trip.js";
 import {DAYS} from "./mock/days.js";
 
-const EVENTS_COUNT = 20;
-
 const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
@@ -34,9 +32,11 @@ render(TripEventElement, createEventFormTemplate(EVENTS[0]));
 render(TripEventElement, createTripDaysWrapper());
 const TripDaysWrapper = TripEventElement.querySelector(`.trip-days`);
 render(TripDaysWrapper, createTripDaysTemplate(DAYS));
-const DayEventWrapper = TripDaysWrapper.querySelector(`.trip-events__list`);
+const DayEventWrapper = TripDaysWrapper.querySelectorAll(`.trip-events__list`);
 
-for (let i = 0; i < EVENTS_COUNT; i++) {
-  render(DayEventWrapper, createTripEventTemplate(EVENTS[i]));
+for (let j = 0; j < DayEventWrapper.length; j++) {
+  for (let i = 0; i < EVENTS.length; i++) {
+    render(DayEventWrapper[j], createTripEventTemplate(EVENTS[i]));
+  }
 }
 

@@ -16,7 +16,7 @@ const generateEvent = () => {
     options: generateOptions(),
     info: {
       description: getRandomArrayItem(DESCRIPTIONS),
-      photos: getRandomArrayItem[PHOTOS],
+      photos: getRandomArrayItem(PHOTOS),
     },
     price: getRandomIntegerNumber(PRICE_MIN, PRICE_MAX),
     startDate,

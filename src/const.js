@@ -1,4 +1,5 @@
-const EVENT_TYPES = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`,`Check-in`, `Sightseeing`, `Restaurant`]
+const EVENT_TYPES = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`,];
+const POINT_TYPES = [`Check-in`, `Sightseeing`, `Restaurant`,];
 
 const PRICE_MIN = 100;
 const PRICE_MAX = 1000;
@@ -21,13 +22,15 @@ const DESCRIPTIONS = [
 `Sed sed nisi sed augue convallis suscipit in sed felis.`,
 `Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus.`,
 `In rutrum ac purus sit amet tempus.`,
-]
+];
 
 const PHOTOS = [
 `http://picsum.photos/248/152?r=${Math.random()}`,
 `http://picsum.photos/248/152?r=${Math.random()}`,
 `http://picsum.photos/248/152?r=${Math.random()}`,
-]
+`http://picsum.photos/248/152?r=${Math.random()}`,
+`http://picsum.photos/248/152?r=${Math.random()}`,
+];
 
 const CITIES = [`Los Angeles`, `San-Bernardino`, `Barstow`, `Fresno`, `Bakersfield`, `Needles`, `Kingman`, `Seligman`,];
 
@@ -46,4 +49,4 @@ const MONTHS = [
   `DEC`
 ];
 
-export {EVENT_TYPES, EVENT_OPTIONS, DESCRIPTIONS, PHOTOS, CITIES, PRICE_MAX, PRICE_MIN, MONTHS};
+export {EVENT_TYPES, POINT_TYPES, EVENT_OPTIONS, DESCRIPTIONS, PHOTOS, CITIES, PRICE_MAX, PRICE_MIN, MONTHS};
