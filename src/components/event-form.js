@@ -1,4 +1,14 @@
+const createTypeMarkup = (type) => {
+  return (
+    `<div class="event__type-item">
+      <input id="event-type-${type.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type.toLowerCase()}">
+      <label class="event__type-label  event__type-label--${type.toLowerCase()}" for="event-type-${type.toLowerCase()}-1">${type}</label>
+    </div>`
+  );
+};
+
 export const createEventFormTemplate = () => {
+  const typeMarkup = EVENT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
   return (
     `<form class="trip-events__item  event  event--edit" action="#" method="post">
       <header class="event__header">
