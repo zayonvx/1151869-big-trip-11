@@ -1,5 +1,5 @@
 import {EVENT_TYPES, EVENT_OPTIONS, DESCRIPTIONS, PHOTOS, CITIES, PRICE_MAX, PRICE_MIN} from "../const.js";
-import {getRandomIntegerNumber, getRandomArrayItem, getRandomBoolean, getRandomDate} from "../utils.js";
+import {getRandomIntegerNumber, getRandomArrayItem, getRandomBoolean, getRandomDate, buildArray} from "../utils.js";
 
 const EVENTS_COUNT = 20;
 
@@ -15,8 +15,8 @@ const generateEvent = () => {
     city: getRandomArrayItem(CITIES),
     options: generateOptions(),
     info: {
-      description: getRandomArrayItem(DESCRIPTIONS),
-      photos: getRandomArrayItem(PHOTOS),
+      description: buildArray(DESCRIPTIONS),
+      photos: buildArray(PHOTOS),
     },
     price: getRandomIntegerNumber(PRICE_MIN, PRICE_MAX),
     startDate,

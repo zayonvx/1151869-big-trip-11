@@ -25,11 +25,11 @@ const DESCRIPTIONS = [
 ];
 
 const PHOTOS = [
-`http://picsum.photos/248/152?r=${Math.random()}`,
-`http://picsum.photos/248/152?r=${Math.random()}`,
-`http://picsum.photos/248/152?r=${Math.random()}`,
-`http://picsum.photos/248/152?r=${Math.random()}`,
-`http://picsum.photos/248/152?r=${Math.random()}`,
+  `http://picsum.photos/248/152?r=${Math.random()}`,
+  `http://picsum.photos/248/152?r=${Math.random()}`,
+  `http://picsum.photos/248/152?r=${Math.random()}`,
+  `http://picsum.photos/248/152?r=${Math.random()}`,
+  `http://picsum.photos/248/152?r=${Math.random()}`
 ];
 
 const CITIES = [`Los Angeles`, `San-Bernardino`, `Barstow`, `Fresno`, `Bakersfield`, `Needles`, `Kingman`, `Seligman`,];

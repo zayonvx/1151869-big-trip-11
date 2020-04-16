@@ -7,9 +7,11 @@ import {createEventFormTemplate} from "./components/event-form.js";
 import {createTripDaysWrapper} from "./components/days-wrapper.js";
 import {createTripDaysTemplate} from "./components/day.js";
 import {createTripEventTemplate} from "./components/event.js";
-import {getHeader} from "./utils.js";
+import {buildCitiesString, mathTotalPrice} from "./utils.js";
 import {EVENTS} from "./mock/trip.js";
 import {DAYS} from "./mock/days.js";
+
+const totalCost = mathTotalPrice(EVENTS);
 
 const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
@@ -20,9 +22,9 @@ const TripMenuElement = TripMainElement.querySelector(`.trip-controls`);
 const PageMainElement = document.querySelector(`.page-main`);
 const TripEventElement = PageMainElement.querySelector(`.trip-events`);
 
-render(TripMainElement, createTripTemplate(getHeader(EVENTS), DAYS), `afterbegin`);
+render(TripMainElement, createTripTemplate(buildCitiesString(EVENTS), DAYS), `afterbegin`);
 const TripInfo = TripMainElement.querySelector(`.trip-info`);
-render(TripInfo, createCostTemplate());
+render(TripInfo, createCostTemplate(totalCost));
 
 render(TripMenuElement, createMenuTemplate());
 render(TripMenuElement, createFilterTemplate());

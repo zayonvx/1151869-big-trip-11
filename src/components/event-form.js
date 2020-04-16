@@ -48,7 +48,7 @@ export const createEventFormTemplate = (EVENT) => {
   const typeMarkupTransport = EVENT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
   const typeMarkupPoint = POINT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
   const descriptionMarkup = createDescription(info.description);
-  const photosMarkup = createPhotos(info.photos);
+  const photosMarkup = info.photos.map((it) => createPhotos(it)).join(`\n`);;
   const startTime = formatTime(startDate);
   const endTime = formatTime(endDate);
   return (
@@ -124,7 +124,9 @@ export const createEventFormTemplate = (EVENT) => {
             ${descriptionMarkup}
 
           <div class="event__photos-container">
+            <div class="event__photos-tape">
             ${photosMarkup}
+            </div>
           </div>
         </section>
       </section>
