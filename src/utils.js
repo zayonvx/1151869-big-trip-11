@@ -38,27 +38,38 @@ const getRandomDate = (date) => {
   return targetDate;
 };
 
-const displayTimeFormat = (value) => {
-  return value < 10 ? `0${value}` : String(value);
-};
+const displayDateFormat = (value) => {
+  return `${value}`.padStart(2, `0`);
+}
 
-const formatTime = (date, forForm = false) => {
-  const years = displayTimeFormat(date.getUTCFullYear()) % 2000;
-  const months = displayTimeFormat(date.getMonth());
-  const days = displayTimeFormat(date.getDate());
-  const hours = displayTimeFormat(date.getHours() % 12);
-  const minutes = displayTimeFormat(date.getMinutes());
+const formatDate = (date, forForm = false) => {
+  const years = displayDateFormat(date.getUTCFullYear()) % 2000;
+  const months = displayDateFormat(date.getMonth());
+  const days = displayDateFormat(date.getDate());
+  const hours = displayDateFormat(date.getHours() % 12);
+  const minutes = displayDateFormat(date.getMinutes());
 
   return forForm ? `${days}/${months}/${years} ${hours}:${minutes}` : `${hours}:${minutes}`;
 };
 
-const formatTimeDiff = (timeDiff) => {
-  const time = Math.floor((timeDiff) / 60000);
-  const minutes = time % 60;
-  const days = Math.round((time - minutes) / 1440);
-  const hours = Math.round((time - minutes) / 60 - days * 24);
-
-  return `${days > 0 ? days + `D` : ``} ${hours > 0 ? hours + `H` : ``} ${minutes > 0 ? minutes + `M` : ``}`;
+const formatDateDiff = (begin, end) => {
+  let minutes = (end - begin) / (1000 * 60);
+  let days;
+  let hours;
+  let result = ``;
+  if (minutes >= 24 * 60) {
+    days = displayDateFormat(Math.floor(minutes / (60 * 24)));
+    minutes = minutes % (60 * 24);
+    result += `${days}D `;
+  }
+  if (minutes >= 60) {
+    hours = displayDateFormat(Math.floor(minutes / 60));
+    minutes = minutes % 60;
+    result += `${hours}H `;
+  }
+  minutes = displayDateFormat(minutes);
+  result += `${minutes}M`;
+  return result;
 };
 
 const buildCitiesString = (events) => {
@@ -78,4 +89,8 @@ const mathTotalPrice = (events) => {
   return overallPrice + optionsPrice;
 };
 
-export {getRandomIntegerNumber, getRandomArrayItem, getRandomBoolean, buildArray, getRandomDate, formatTime, formatTimeDiff, buildCitiesString, mathTotalPrice};
+const filterArray = (array) => {
+  return array.filter(() => getRandomBoolean());
+};
+
+export {getRandomIntegerNumber, getRandomArrayItem, getRandomBoolean, buildArray, getRandomDate, formatDate, formatDateDiff, buildCitiesString, mathTotalPrice, filterArray};

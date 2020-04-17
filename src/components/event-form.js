@@ -1,5 +1,5 @@
 import {EVENT_TYPES, POINT_TYPES} from "../const.js";
-import {formatTime} from "../utils.js";
+import {formatDate, buildArray} from "../utils.js";
 
 const createTypeMarkup = (type) => {
   return (
@@ -27,13 +27,7 @@ const createOptionsListForm = (EVENT_OPTIONS) => {
     }).slice(0, 3).join(`\n`);
 };
 
-const createDescription = (text) => {
-  return (
-    `<p class="event__destination-description">${text}</p>`
-  );
-};
-
-const createPhotos = (url) => {
+const createPhoto = (url) => {
   return (
     `<div class="event__photos-tape">
       <img class="event__photo" src="${url}" alt="Event photo">
@@ -47,10 +41,10 @@ export const createEventFormTemplate = (EVENT) => {
   const optionMarkup = createOptionsListForm(options);
   const typeMarkupTransport = EVENT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
   const typeMarkupPoint = POINT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
-  const descriptionMarkup = createDescription(info.description);
-  const photosMarkup = info.photos.map((it) => createPhotos(it)).join(`\n`);
-  const startTime = formatTime(startDate);
-  const endTime = formatTime(endDate);
+  const descriptionText = buildArray(info.description);
+  const photosMarkup = info.photos.map((it) => createPhoto(it)).join(`\n`);
+  const startTime = formatDate(startDate);
+  const endTime = formatDate(endDate);
   return (
     `<form class="trip-events__item  event  event--edit" action="#" method="post">
       <header class="event__header">
@@ -121,8 +115,7 @@ export const createEventFormTemplate = (EVENT) => {
 
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-            ${descriptionMarkup}
-
+            <p class="event__destination-description">${descriptionText}</p>
           <div class="event__photos-container">
             <div class="event__photos-tape">
             ${photosMarkup}

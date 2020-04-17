@@ -1,7 +1,8 @@
-import {formatTime, formatTimeDiff} from "../utils.js";
+import {formatDateDiff, formatDate} from "../utils.js";
 
 const createOptionsList = (EVENT_OPTIONS) => {
   return EVENT_OPTIONS
+  .slice(0, 3)
     .map((it) => {
       const {option, cost} = it;
       return (
@@ -11,15 +12,11 @@ const createOptionsList = (EVENT_OPTIONS) => {
           &euro;&nbsp;<span class="event__offer-price">${cost}</span>
         </li>`
       );
-    }).slice(0, 3).join(`\n`);
+    }).join(`\n`);
 };
 
 export const createTripEventTemplate = (EVENTS) => {
   const {type, city, price, startDate, endDate, options} = EVENTS;
-  const startTime = formatTime(startDate);
-  const endTime = formatTime(endDate);
-  const timeDiff = endDate - startDate;
-
   const isEventType = [`Check-in`, `Sightseeing`, `Restaurant`].some((it) => it === type) ? `in` : `to`;
 
   return (
@@ -31,12 +28,12 @@ export const createTripEventTemplate = (EVENTS) => {
       <h3 class="event__title">${type} ${isEventType} ${city}</h3>
 
       <div class="event__schedule">
-        <p class="event__time">
-          <time class="event__start-time" datetime="2019-03-18T14:30">${startTime}</time>
+        <p class="event__Date">
+          <time class="event__start-time" datetime="2019-03-18T14:30">${formatDate(startDate)}</Date>
           &mdash;
-          <time class="event__end-time" datetime="2019-03-18T16:05">${endTime}</time>
+          <time class="event__end-time" datetime="2019-03-18T16:05">${formatDate(endDate)}</time>
         </p>
-        <p class="event__duration">${formatTimeDiff(timeDiff)}</p>
+        <p class="event__duration">${formatDateDiff(startDate, endDate)}</p>
       </div>
 
       <p class="event__price">

@@ -11,8 +11,5 @@ const createTripDayMarkup = (it, index) => {
 };
 
 export const createTripDaysTemplate = (days) => {
-  const TripDayItem = days.map((it, index) => createTripDayMarkup(it, index)).join(`\n`);
-  return (
-    `${TripDayItem}`
-  );
+  return days.map((it, index) => createTripDayMarkup(it, index)).join(`\n`);
 };

@@ -1,10 +1,11 @@
 import {EVENT_TYPES, EVENT_OPTIONS, DESCRIPTIONS, PHOTOS, CITIES, PRICE_MAX, PRICE_MIN} from "../const.js";
-import {getRandomIntegerNumber, getRandomArrayItem, getRandomBoolean, getRandomDate, buildArray} from "../utils.js";
+import {getRandomIntegerNumber, getRandomArrayItem, getRandomDate, buildArray, filterArray} from "../utils.js";
 
 const EVENTS_COUNT = 20;
 
-const generateOptions = () => {
-  return EVENT_OPTIONS.filter(() => getRandomBoolean()).sort(() => getRandomBoolean() ? 1 : -1);
+const generateOptions = (array) => {
+  return filterArray(array)
+  .sort((a, b) => b.cost - a.cost);
 };
 
 const generateEvent = () => {
@@ -13,7 +14,7 @@ const generateEvent = () => {
   return {
     type: getRandomArrayItem(EVENT_TYPES),
     city: getRandomArrayItem(CITIES),
-    options: generateOptions(),
+    options: generateOptions(EVENT_OPTIONS),
     info: {
       description: buildArray(DESCRIPTIONS),
       photos: buildArray(PHOTOS),
