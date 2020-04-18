@@ -40,7 +40,7 @@ const getRandomDate = (date) => {
 
 const displayDateFormat = (value) => {
   return `${value}`.padStart(2, `0`);
-}
+};
 
 const formatDate = (date, forForm = false) => {
   const years = displayDateFormat(date.getUTCFullYear()) % 2000;
