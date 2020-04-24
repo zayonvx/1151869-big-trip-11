@@ -1,4 +1,6 @@
-export const createTripTemplate = (header, days) => {
+import {createElement} from "../utils";
+
+const createTripTemplate = (header, days) => {
   return (
     `<section class="trip-main__trip-info  trip-info">
       <div class="trip-info__main">
@@ -8,3 +10,28 @@ export const createTripTemplate = (header, days) => {
     </section>`
   );
 };
+
+export default class TripComponent {
+  constructor(header, days) {
+    this._header = header;
+    this._days = days;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripTemplate(this._header, this._days);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

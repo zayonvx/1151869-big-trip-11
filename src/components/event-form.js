@@ -1,5 +1,5 @@
 import {EVENT_TYPES, POINT_TYPES} from "../const.js";
-import {formatDate, buildArray} from "../utils.js";
+import {formatDate, buildArray, createElement} from "../utils.js";
 
 const createTypeMarkup = (type) => {
   return (
@@ -36,7 +36,7 @@ const createPhoto = (url) => {
 };
 
 
-export const createEventFormTemplate = (EVENT) => {
+const createEventFormTemplate = (EVENT) => {
   const {type, city, price, startDate, endDate, options, info} = EVENT;
   const optionMarkup = createOptionsListForm(options);
   const typeMarkupTransport = EVENT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
@@ -126,3 +126,27 @@ export const createEventFormTemplate = (EVENT) => {
     </form>`
   );
 };
+
+export default class EventFormComponent {
+  constructor(EVENT) {
+    this._event = EVENT;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createEventFormTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getElement());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
