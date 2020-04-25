@@ -23,9 +23,40 @@ const renderHeader = (events, days) => {
   render(tripInfoElement, new CostComponent(totalCost).getElement());
 };
 
-const renderEvent = (dayContainer, event) => {
+const renderEvent = (eventContainer, event) => {
   const eventComponent = new TripEventComponent(event);
-  render(dayContainer, eventComponent.getElement());
+  const eventFormComponent = new EventFormComponent(event);
+
+  const onEscKeyDown = (evt) => {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+    if (isEscKey) {
+      replaceFormToEvent();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  const eventRollUpBtn = eventComponent.getElement().querySelector(`.event__rollup-btn`);
+  const eventFormRollUpBtn = eventFormComponent.getElement().querySelector(`.event__save-btn`);
+
+  const replaceFormToEvent = () => {
+    eventContainer.replaceChild(eventComponent.getElement(), eventFormComponent.getElement());
+  };
+
+  const replaceEventToForm = () => {
+    eventContainer.replaceChild(eventFormComponent.getElement(), eventComponent.getElement());
+  };
+
+  eventRollUpBtn.addEventListener(`click`, function () {
+    replaceEventToForm();
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
+
+  eventFormRollUpBtn.addEventListener(`click`, function () {
+    replaceFormToEvent();
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
+
+  render(eventContainer, eventComponent.getElement());
 };
 
 const renderDay = (dayWrapper, day, events, index) => {
