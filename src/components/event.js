@@ -1,8 +1,8 @@
-import {formatDateDiff, formatDate} from "../utils.js";
+import {formatDateDiff, formatDate, createElement} from "../utils.js";
 
-const createOptionsList = (EVENT_OPTIONS) => {
-  return EVENT_OPTIONS
-  .slice(0, 3)
+const createOptionsList = (options) => {
+  return options
+  .slice(0, options.length)
     .map((it) => {
       const {option, cost} = it;
       return (
@@ -15,8 +15,8 @@ const createOptionsList = (EVENT_OPTIONS) => {
     }).join(`\n`);
 };
 
-export const createTripEventTemplate = (EVENTS) => {
-  const {type, city, price, startDate, endDate, options} = EVENTS;
+const createTripEventTemplate = (event) => {
+  const {type, city, price, startDate, endDate, options} = event;
   const isEventType = [`Check-in`, `Sightseeing`, `Restaurant`].some((it) => it === type) ? `in` : `to`;
 
   return (
@@ -50,3 +50,28 @@ export const createTripEventTemplate = (EVENTS) => {
   </li>`
   );
 };
+
+
+export default class TripEventComponent {
+  constructor(event) {
+    this._event = event;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripEventTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

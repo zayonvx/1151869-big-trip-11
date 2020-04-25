@@ -4,8 +4,7 @@ import {getRandomIntegerNumber, getRandomArrayItem, getRandomDate, buildArray, f
 const EVENTS_COUNT = 20;
 
 const generateOptions = (array) => {
-  return filterArray(array)
-  .sort((a, b) => b.cost - a.cost);
+  return filterArray(array).sort((a, b) => b.cost - a.cost);
 };
 
 const generateEvent = () => {

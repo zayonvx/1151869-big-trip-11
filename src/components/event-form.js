@@ -1,5 +1,5 @@
 import {EVENT_TYPES, POINT_TYPES} from "../const.js";
-import {formatDate, buildArray} from "../utils.js";
+import {formatDate, buildArray, createElement} from "../utils.js";
 
 const createTypeMarkup = (type) => {
   return (
@@ -10,14 +10,14 @@ const createTypeMarkup = (type) => {
   );
 };
 
-const createOptionsListForm = (EVENT_OPTIONS) => {
-  return EVENT_OPTIONS
+const createOptionsListForm = (options) => {
+  return options
     .map((it) => {
       const {option, cost} = it;
       return (
         `<div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-${option[EVENT_OPTIONS.length - 1]}-1" type="checkbox" name="event-offer-${option[EVENT_OPTIONS.length - 1]}" checked>
-          <label class="event__offer-label" for="event-offer-${option[EVENT_OPTIONS.length - 1]}-1">
+          <input class="event__offer-checkbox  visually-hidden" id="event-offer-${option[options.length - 1]}-1" type="checkbox" name="event-offer-${option[options.length - 1]}" checked>
+          <label class="event__offer-label" for="event-offer-${option[options.length - 1]}-1">
             <span class="event__offer-title">${option}</span>
             &plus;
             &euro;&nbsp;<span class="event__offer-price">${cost}</span>
@@ -36,8 +36,8 @@ const createPhoto = (url) => {
 };
 
 
-export const createEventFormTemplate = (EVENT) => {
-  const {type, city, price, startDate, endDate, options, info} = EVENT;
+const createEventFormTemplate = (event) => {
+  const {type, city, price, startDate, endDate, options, info} = event;
   const optionMarkup = createOptionsListForm(options);
   const typeMarkupTransport = EVENT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
   const typeMarkupPoint = POINT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
@@ -126,3 +126,27 @@ export const createEventFormTemplate = (EVENT) => {
     </form>`
   );
 };
+
+export default class EventFormComponent {
+  constructor(event) {
+    this._event = event;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createEventFormTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -1,14 +1,14 @@
-const getRandomArrayItem = (array) => {
+export const getRandomArrayItem = (array) => {
   const randomIndex = getRandomIntegerNumber(0, array.length);
 
   return array[randomIndex];
 };
 
-const getRandomIntegerNumber = (min, max) => {
+export const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
 };
 
-const getRandomBoolean = () => {
+export const getRandomBoolean = () => {
   return Math.random() > 0.5;
 };
 
@@ -17,7 +17,7 @@ const getRandomBoolean = () => {
 //     .fill(``);
 // };
 
-const buildArray = function (array) {
+export const buildArray = function (array) {
   for (let i = array.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
     let temp = array[j];
@@ -27,7 +27,7 @@ const buildArray = function (array) {
   return array;
 };
 
-const getRandomDate = (date) => {
+export const getRandomDate = (date) => {
   const targetDate = new Date(date);
   const diffDays = getRandomIntegerNumber(0, 2);
   const diffMinutes = getRandomIntegerNumber(0, 60);
@@ -42,7 +42,7 @@ const displayDateFormat = (value) => {
   return `${value}`.padStart(2, `0`);
 };
 
-const formatDate = (date, forForm = false) => {
+export const formatDate = (date, forForm = false) => {
   const years = displayDateFormat(date.getUTCFullYear()) % 2000;
   const months = displayDateFormat(date.getMonth());
   const days = displayDateFormat(date.getDate());
@@ -52,7 +52,7 @@ const formatDate = (date, forForm = false) => {
   return forForm ? `${days}/${months}/${years} ${hours}:${minutes}` : `${hours}:${minutes}`;
 };
 
-const formatDateDiff = (begin, end) => {
+export const formatDateDiff = (begin, end) => {
   let minutes = (end - begin) / (1000 * 60);
   let days;
   let hours;
@@ -72,11 +72,11 @@ const formatDateDiff = (begin, end) => {
   return result;
 };
 
-const buildCitiesString = (events) => {
+export const buildCitiesString = (events) => {
   return events.length <= 3 ? events.map((event) => event.city).join(` — `) : `${events[0].city} — ... — ${events[events.length - 1].city}`;
 };
 
-const mathTotalPrice = (events) => {
+export const mathTotalPrice = (events) => {
   let overallPrice = 0;
   let optionsPrice = 0;
   for (let i = 0; i < events.length; i++) {
@@ -89,8 +89,29 @@ const mathTotalPrice = (events) => {
   return overallPrice + optionsPrice;
 };
 
-const filterArray = (array) => {
+export const filterArray = (array) => {
   return array.filter(() => getRandomBoolean());
 };
 
-export {getRandomIntegerNumber, getRandomArrayItem, getRandomBoolean, buildArray, getRandomDate, formatDate, formatDateDiff, buildCitiesString, mathTotalPrice, filterArray};
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREBEGIN: `beforebegin`
+};
+
+export const render = (container, element, place = RenderPosition.BEFOREBEGIN) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREBEGIN:
+      container.append(element);
+      break;
+  }
+};
+
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
