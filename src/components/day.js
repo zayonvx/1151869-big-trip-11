@@ -23,6 +23,6 @@ export default class TripDaysComponent extends AbstractComponent {
   }
 
   getTempate() {
-    return createTripDaysTemplate(this._day, this._index)
+    return createTripDaysTemplate(this._day, this._index);
   }
-};
+}

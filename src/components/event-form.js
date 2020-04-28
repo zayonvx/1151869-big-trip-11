@@ -138,4 +138,4 @@ export default class EventFormComponent extends AbstractComponent {
   getTempate() {
     return createEventFormTemplate(this._event);
   }
-};
+}
