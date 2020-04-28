@@ -1,5 +1,5 @@
-import {MONTHS} from "../const";
-import {getRandomArrayItem, getRandomIntegerNumber} from "../utils";
+import {MONTHS} from "../const.js";
+import {getRandomArrayItem, getRandomIntegerNumber} from "../utils/common.js";
 
 const DAYS_COUNT = 3;
 
