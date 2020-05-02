@@ -138,4 +138,8 @@ export default class EventFormComponent extends AbstractComponent {
   getTempate() {
     return createEventFormTemplate(this._event);
   }
+
+  setFormSubmitHandler(cb) {
+    this.getElement().addEventListener(`submit`, cb);
+  }
 }

@@ -62,4 +62,8 @@ export default class TripEventComponent extends AbstractComponent {
   getTempate() {
     return createTripEventTemplate(this._event);
   }
+
+  setMoreButtonHandler(cb) {
+    this.getElement(`.event__rollup-btn`).addEventListener(`click`, cb);
+  }
 }
