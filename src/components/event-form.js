@@ -1,5 +1,6 @@
 import {EVENT_TYPES, POINT_TYPES} from "../const.js";
-import {formatDate, buildArray, createElement} from "../utils.js";
+import {formatDate, buildArray} from "../utils/common.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createTypeMarkup = (type) => {
   return (
@@ -127,26 +128,18 @@ const createEventFormTemplate = (event) => {
   );
 };
 
-export default class EventFormComponent {
+export default class EventFormComponent extends AbstractComponent {
   constructor(event) {
-    this._event = event;
+    super();
 
-    this._element = null;
+    this._event = event;
   }
 
-  getTemplate() {
+  getTempate() {
     return createEventFormTemplate(this._event);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setFormSubmitHandler(cb) {
+    this.getElement().addEventListener(`submit`, cb);
   }
 }

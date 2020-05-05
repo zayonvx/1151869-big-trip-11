@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import AbstractComponent from "./abstract-component";
 
 const createCostTemplate = (fullCost) => {
   return (
@@ -8,26 +8,14 @@ const createCostTemplate = (fullCost) => {
   );
 };
 
-export default class CostComponent {
+export default class CostComponent extends AbstractComponent {
   constructor(fullCost) {
+    super();
+
     this._fullCost = fullCost;
-
-    this._element = null;
   }
 
-  getTemplate() {
+  getTempate() {
     return createCostTemplate(this._fullCost);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

@@ -1,4 +1,5 @@
-import {formatDateDiff, formatDate, createElement} from "../utils.js";
+import {formatDateDiff, formatDate} from "../utils/common.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createOptionsList = (options) => {
   return options
@@ -51,27 +52,18 @@ const createTripEventTemplate = (event) => {
   );
 };
 
-
-export default class TripEventComponent {
+export default class TripEventComponent extends AbstractComponent {
   constructor(event) {
-    this._event = event;
+    super();
 
-    this._element = null;
+    this._event = event;
   }
 
-  getTemplate() {
+  getTempate() {
     return createTripEventTemplate(this._event);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setMoreButtonHandler(cb) {
+    this.getElement(`.event__rollup-btn`).addEventListener(`click`, cb);
   }
 }

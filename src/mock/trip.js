@@ -1,5 +1,5 @@
 import {EVENT_TYPES, EVENT_OPTIONS, DESCRIPTIONS, PHOTOS, CITIES, PRICE_MAX, PRICE_MIN} from "../const.js";
-import {getRandomIntegerNumber, getRandomArrayItem, getRandomDate, buildArray, filterArray} from "../utils.js";
+import {getRandomIntegerNumber, getRandomArrayItem, getRandomDate, buildArray, filterArray} from "../utils/common.js";
 
 const EVENTS_COUNT = 20;
 
