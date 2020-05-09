@@ -1,6 +1,8 @@
-import AbstractComponent from "./abstract-component";
+import AbstractComponent from "./abstract-component.js";
+import {getTripInfoPrice} from "../utils/common.js";
 
-const createCostTemplate = (fullCost) => {
+const createCostTemplate = (events) => {
+  const fullCost = getTripInfoPrice(events);
   return (
     `<p class="trip-info__cost">
       Total: &euro;&nbsp;<span class="trip-info__cost-value">${fullCost}</span>
@@ -9,13 +11,13 @@ const createCostTemplate = (fullCost) => {
 };
 
 export default class CostComponent extends AbstractComponent {
-  constructor(fullCost) {
+  constructor(events) {
     super();
 
-    this._fullCost = fullCost;
+    this._events = events;
   }
 
   getTempate() {
-    return createCostTemplate(this._fullCost);
+    return createCostTemplate(this._events);
   }
 }

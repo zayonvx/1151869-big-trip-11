@@ -1,3 +1,5 @@
+import { MONTHS } from "../const";
+
 export const getRandomArrayItem = (array) => {
   const randomIndex = getRandomIntegerNumber(0, array.length);
 
@@ -12,11 +14,6 @@ export const getRandomBoolean = () => {
   return Math.random() > 0.5;
 };
 
-// const getRandomLengthArray = (min, max) => {
-//   return new Array(getRandomNumber(min, max))
-//     .fill(``);
-// };
-
 export const buildArray = function (array) {
   for (let i = array.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -29,10 +26,12 @@ export const buildArray = function (array) {
 
 export const getRandomDate = (date) => {
   const targetDate = new Date(date);
-  const diffDays = getRandomIntegerNumber(0, 2);
+  const diffDays = getRandomIntegerNumber(0, 7);
   const diffMinutes = getRandomIntegerNumber(0, 60);
+  const diffHours = getRandomIntegerNumber(0,24);
 
   targetDate.setDate(targetDate.getDate() + diffDays);
+  targetDate.setDate(targetDate.getHours() + diffHours);
   targetDate.setMinutes(targetDate.getMinutes() + diffMinutes);
 
   return targetDate;
@@ -72,11 +71,11 @@ export const formatDateDiff = (begin, end) => {
   return result;
 };
 
-export const buildCitiesString = (events) => {
+export const getTripInfoTitle = (events) => {
   return events.length <= 3 ? events.map((event) => event.city).join(` — `) : `${events[0].city} — ... — ${events[events.length - 1].city}`;
 };
 
-export const mathTotalPrice = (events) => {
+export const getTripInfoPrice = (events) => {
   let overallPrice = 0;
   let optionsPrice = 0;
   for (let i = 0; i < events.length; i++) {
@@ -88,6 +87,14 @@ export const mathTotalPrice = (events) => {
   }
   return overallPrice + optionsPrice;
 };
+
+export const getTripInfoDates = (events) => {
+  const startMonth = events[0].startDate.getMonth();
+  const startDay = events[0].startDate.getDate();
+  const endMonth = events[events.length - 1].endDate.getMonth();
+  const endDay = events[events.length - 1].endDate.getDate();
+  return `${MONTHS[startMonth]} ${startDay} — ${MONTHS[endMonth]} ${endDay}`;
+}
 
 export const filterArray = (array) => {
   return array.filter(() => getRandomBoolean());
