@@ -1,4 +1,4 @@
-import { MONTHS } from "../const";
+import {MONTHS} from "../const";
 
 export const getRandomArrayItem = (array) => {
   const randomIndex = getRandomIntegerNumber(0, array.length);
@@ -28,7 +28,7 @@ export const getRandomDate = (date) => {
   const targetDate = new Date(date);
   const diffDays = getRandomIntegerNumber(0, 7);
   const diffMinutes = getRandomIntegerNumber(0, 60);
-  const diffHours = getRandomIntegerNumber(0,24);
+  const diffHours = getRandomIntegerNumber(0, 24);
 
   targetDate.setDate(targetDate.getDate() + diffDays);
   targetDate.setDate(targetDate.getHours() + diffHours);
@@ -94,7 +94,7 @@ export const getTripInfoDates = (events) => {
   const endMonth = events[events.length - 1].endDate.getMonth();
   const endDay = events[events.length - 1].endDate.getDate();
   return `${MONTHS[startMonth]} ${startDay} — ${MONTHS[endMonth]} ${endDay}`;
-}
+};
 
 export const filterArray = (array) => {
   return array.filter(() => getRandomBoolean());

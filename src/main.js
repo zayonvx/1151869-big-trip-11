@@ -21,4 +21,4 @@ renderComponent(tripMenu, new FilterComponent());
 
 const tripContainer = document.querySelector(`.trip-events`);
 const tripController = new TripController(tripContainer);
-tripController.render(EVENTS, DAYS);
+tripController.render(EVENTS);

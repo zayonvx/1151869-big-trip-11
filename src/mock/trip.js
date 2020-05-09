@@ -30,4 +30,4 @@ const generateEvents = (count) => {
   .sort((a, b) => a.startDate - b.startDate);
 };
 
-export const EVENTS = generateEvents(EVENTS_COUNT).slice().sort((a, b) => a.startDate.getDate() - b.startDate.getDate());
+export const EVENTS = generateEvents(EVENTS_COUNT).slice().sort((a, b) => a.startDate.getMonth() - b.startDate.getMonth());
