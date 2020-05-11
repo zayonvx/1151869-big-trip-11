@@ -6,6 +6,7 @@ import {renderComponent, replace, RenderPosition} from "../utils/render.js";
 import TripDaysComponent from "../components/day.js";
 import {sortData} from "../const.js";
 import {sortFilters} from "../mock/sort.js";
+import {buildUniqueArray} from "../utils/common.js";
 
 export default class TripController {
   constructor(container) {
@@ -19,7 +20,7 @@ export default class TripController {
     const renderEvent = (event, day) => {
       const eventComponent = new TripEventComponent(event);
       const eventFormComponent = new EventFormComponent(event);
-      const eventContainer = day.getElement().querySelector(`.trip-events__list`);
+      const eventContainer = day.getSelector(`.trip-events__list`);
 
       const openEventForm = () => {
         replace(eventFormComponent, eventComponent);
@@ -56,9 +57,14 @@ export default class TripController {
 
     this._events = events;
 
-    this._days = this._events.map((event) => event.startDate.toDateString());
+    this._daysNonUnique = this._events.map((event) => event.startDate.toDateString());
+
+    this._days = buildUniqueArray(this._daysNonUnique);
+
+    console.log(this._days);
 
     const renderEvents = (data, isSortDefault = true) => {
+      const dayWrapperContainer = this._daysWrapper.getElement();
       if (isSortDefault) {
         [...this._days].forEach((day, index) => {
           const dayComponent = new TripDaysComponent(day, index);
@@ -67,14 +73,14 @@ export default class TripController {
             renderEvent(it, dayComponent);
           });
 
-          renderComponent(this._daysWrapper.getElement(), dayComponent);
+          renderComponent(dayWrapperContainer, dayComponent);
         });
       } else {
         const dayComponent = new TripDaysComponent();
 
-        dayComponent.getElement().querySelector(`.day__info`).innerHTML = ``;
+        dayComponent.getSelector(`.day__info`).innerHTML = ``;
         data.forEach((it) => renderEvent(it, dayComponent));
-        renderComponent(this._daysWrapper.getElement(), dayComponent);
+        renderComponent(dayWrapperContainer, dayComponent);
       }
     };
 

@@ -99,3 +99,8 @@ export const getTripInfoDates = (events) => {
 export const filterArray = (array) => {
   return array.filter(() => getRandomBoolean());
 };
+
+export const buildUniqueArray = (array) => {
+  const uniqueSet = new Set(array);
+  return Array.from(uniqueSet);
+}

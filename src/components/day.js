@@ -24,4 +24,8 @@ export default class TripDaysComponent extends AbstractComponent {
   getTempate() {
     return createTripDaysTemplate(this._day, this._index);
   }
+
+  getSelector(selector) {
+    return this.getElement().querySelector(selector);
+  }
 }

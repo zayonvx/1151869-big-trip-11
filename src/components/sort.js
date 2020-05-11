@@ -45,7 +45,6 @@ export default class SortComponent extends AbstractComponent {
       }
 
       const sortType = evt.target.getAttribute(`value`).slice(5);
-      console.log(sortType);
 
       if (this._currentSortType === sortType) {
         return;
