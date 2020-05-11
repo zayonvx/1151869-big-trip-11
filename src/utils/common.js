@@ -103,4 +103,4 @@ export const filterArray = (array) => {
 export const buildUniqueArray = (array) => {
   const uniqueSet = new Set(array);
   return Array.from(uniqueSet);
-}
+};

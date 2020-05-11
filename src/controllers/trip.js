@@ -61,8 +61,6 @@ export default class TripController {
 
     this._days = buildUniqueArray(this._daysNonUnique);
 
-    console.log(this._days);
-
     const renderEvents = (data, isSortDefault = true) => {
       const dayWrapperContainer = this._daysWrapper.getElement();
       if (isSortDefault) {
