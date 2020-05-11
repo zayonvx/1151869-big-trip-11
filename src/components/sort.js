@@ -5,7 +5,7 @@ const sortTemplate = (sortFilters) => sortFilters.map(({name, isChecked}) => {
   const nameLower = name.toLowerCase();
   return (
     `<div class="trip-sort__item  trip-sort__item--${nameLower}">
-    <input id="sort-${nameLower}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${nameLower})}" ${isChecked ? `checked` : ``}>
+    <input id="sort-${nameLower}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${nameLower}" ${isChecked ? `checked` : ``}>
     <label class="trip-sort__btn" for="sort-${nameLower}">
       ${name}
       <svg class="trip-sort__direction-icon" width="8" height="10" viewBox="0 0 8 10">
@@ -39,12 +39,13 @@ export default class SortComponent extends AbstractComponent {
   }
 
   setOnSortClick(handler) {
-    this.getElement().addEventListener(`click`, (evt) => {
-      if (evt.target.className !== `trip-sort__btn`) {
+    this.getElement().addEventListener(`change`, (evt) => {
+      if (evt.target.tagName !== `INPUT`) {
         return;
       }
 
-      const sortType = evt.target.getAttribute(`for`).slice(5);
+      const sortType = evt.target.getAttribute(`value`).slice(5);
+      console.log(sortType);
 
       if (this._currentSortType === sortType) {
         return;

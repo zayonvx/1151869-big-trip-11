@@ -1,7 +1,11 @@
 import {EVENT_TYPES, EVENT_OPTIONS, DESCRIPTIONS, PHOTOS, CITIES, PRICE_MAX, PRICE_MIN} from "../const.js";
 import {getRandomIntegerNumber, getRandomArrayItem, getRandomDate, buildArray, filterArray} from "../utils/common.js";
 
-const EVENTS_COUNT = 20;
+const EVENTS_COUNT_MIN = 5;
+const EVENTS_COUNT_MAX = 20;
+
+const EVENTS_COUNT = getRandomIntegerNumber(EVENTS_COUNT_MIN, EVENTS_COUNT_MAX);
+
 
 const generateOptions = (array) => {
   return filterArray(array).sort((a, b) => b.cost - a.cost);
