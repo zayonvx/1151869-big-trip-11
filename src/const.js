@@ -48,3 +48,9 @@ export const MONTHS = [
   `NOV`,
   `DEC`
 ];
+
+export const sortData = {
+  EVENT: `event`,
+  TIME: `time`,
+  PRICE: `price`
+};

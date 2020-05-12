@@ -1,21 +1,26 @@
+import DayWrapperComponent from "../components/days-wrapper.js";
 import SortComponent from "../components/sort.js";
 import TripEventComponent from "../components/event.js";
 import EventFormComponent from "../components/event-form.js";
+import {renderComponent, replace, RenderPosition} from "../utils/render.js";
 import TripDaysComponent from "../components/day.js";
-import DaysWrapperComponent from "../components/days-wrapper.js";
-import {renderComponent, replace} from "../utils/render.js";
+import {sortData} from "../const.js";
+import {sortFilters} from "../mock/sort.js";
+import {buildUniqueArray} from "../utils/common.js";
 
 export default class TripController {
   constructor(container) {
     this._container = container;
-    this._sort = new SortComponent();
-    this._daysWrapper = new DaysWrapperComponent();
+
+    this._daysWrapper = new DayWrapperComponent();
+    this._sortComponent = new SortComponent(sortFilters);
   }
 
-  render(events, days) {
-    const renderEvent = (eventContainer, event) => {
+  render(events) {
+    const renderEvent = (event, day) => {
       const eventComponent = new TripEventComponent(event);
       const eventFormComponent = new EventFormComponent(event);
+      const eventContainer = day.getSelector(`.trip-events__list`);
 
       const openEventForm = () => {
         replace(eventFormComponent, eventComponent);
@@ -47,26 +52,59 @@ export default class TripController {
       renderComponent(eventContainer, eventComponent);
     };
 
-    const renderDay = (dayWrapper, day, events, index) => {
-      const tripDayComponent = new TripDaysComponent(day, index);
-      renderComponent(dayWrapper, tripDayComponent);
-      const tripEventsList = dayWrapper.querySelectorAll(`.trip-events__list`);
-      for (let j = 0; j < tripEventsList.length; j++) {
-        for (let i = 0; i < events.length; i++) {
-          renderEvent(tripEventsList[j], events[i]);
-        }
+    renderComponent(this._container, this._sortComponent, RenderPosition.AFTERBEGIN);
+    renderComponent(this._container, this._daysWrapper);
+
+    this._events = events;
+
+    this._daysNonUnique = this._events.map((event) => event.startDate.toDateString());
+
+    this._days = buildUniqueArray(this._daysNonUnique);
+
+    const renderEvents = (data, isSortDefault = true) => {
+      const dayWrapperContainer = this._daysWrapper.getElement();
+      if (isSortDefault) {
+        [...this._days].forEach((day, index) => {
+          const dayComponent = new TripDaysComponent(day, index);
+
+          data.filter(({startDate}) => new Date(startDate).toDateString() === day).forEach((it) => {
+            renderEvent(it, dayComponent);
+          });
+
+          renderComponent(dayWrapperContainer, dayComponent);
+        });
+      } else {
+        const dayComponent = new TripDaysComponent();
+
+        dayComponent.getSelector(`.day__info`).innerHTML = ``;
+        data.forEach((it) => renderEvent(it, dayComponent));
+        renderComponent(dayWrapperContainer, dayComponent);
       }
     };
 
-    this._days = days;
-    this._events = events;
-    const pageMain = document.querySelector(`.page-main`);
-    renderComponent(this._container, this._sort);
-    renderComponent(this._container, this._daysWrapper);
+    renderEvents(this._events);
 
-    const dayWrapperElement = pageMain.querySelector(`.trip-days`);
-    this._days.slice(0, this._days.length).forEach((day, index) => {
-      renderDay(dayWrapperElement, day, this._events, index);
+    this._sortComponent.setOnSortClick((sortType) => {
+      let sortedEvents = [];
+      let isSortDefault = true;
+
+      switch (sortType) {
+        case sortData.EVENT:
+          isSortDefault = true;
+          sortedEvents = this._events.slice();
+          break;
+        case sortData.TIME:
+          isSortDefault = false;
+          sortedEvents = this._events.slice().sort((a, b) => (b.endDate - b.startDate) - (a.endDate - a.startDate));
+          break;
+        case sortData.PRICE:
+          isSortDefault = false;
+          sortedEvents = this._events.slice().sort((a, b) => b.price - a.price);
+          break;
+      }
+
+      this._daysWrapper.getElement().innerHTML = ``;
+      renderEvents(sortedEvents, isSortDefault);
     });
   }
 }
