@@ -142,11 +142,10 @@ const createEventFormTemplate = (event, modification) => {
 };
 
 export default class EventFormComponent extends AbstractSmartComponent {
-  constructor(event, isNewEvent = true) {
+  constructor(event) {
     super();
 
     this._event = event;
-    this._isNewEvent = isNewEvent;
 
     this._newType = null;
     this._submitHandler = null;
@@ -168,7 +167,7 @@ export default class EventFormComponent extends AbstractSmartComponent {
   }
 
   getTempate() {
-    return createEventFormTemplate(this._event, this._isNewEvent, {newType: this._newType});
+    return createEventFormTemplate(this._event, {newType: this._newType});
   }
 
   setFormSubmitHandler(handler) {

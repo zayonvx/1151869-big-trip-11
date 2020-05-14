@@ -27,7 +27,7 @@ export default class PointController {
     const oldEventFormComponent = this._eventFormComponent;
 
     this._eventComponent = new TripEventComponent(event);
-    this._eventFormComponent = new EventFormComponent(event, false);
+    this._eventFormComponent = new EventFormComponent(event);
 
     this._eventComponent.setMoreButtonHandler(() => {
       this._openEventForm();
