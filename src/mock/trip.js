@@ -25,6 +25,7 @@ const generateEvent = () => {
     price: getRandomIntegerNumber(PRICE_MIN, PRICE_MAX),
     startDate,
     endDate: getRandomDate(startDate),
+    isFavorite: Math.random() > 0.5 ? true : false,
   };
 };
 

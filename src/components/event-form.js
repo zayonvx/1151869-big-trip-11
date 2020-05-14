@@ -1,6 +1,6 @@
 import {EVENT_TYPES, POINT_TYPES} from "../const.js";
 import {formatDate, buildArray} from "../utils/common.js";
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 
 const createTypeMarkup = (type) => {
   return (
@@ -37,9 +37,11 @@ const createPhoto = (url) => {
 };
 
 
-const createEventFormTemplate = (event) => {
-  const {type, city, price, startDate, endDate, options, info} = event;
-  const optionMarkup = createOptionsListForm(options);
+const createEventFormTemplate = (event, isNewEvent = true, changes) => {
+  const {type, city, price, startDate, endDate, options, info, isFavorite} = event;
+  const {newEvent} = changes;
+  const newOptions = options[newEvent];
+  const optionMarkup = isNewEvent ? createOptionsListFrom(newOptions) : createOptionsListForm(options);
   const typeMarkupTransport = EVENT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
   const typeMarkupPoint = POINT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
   const descriptionText = buildArray(info.description);
@@ -104,6 +106,14 @@ const createEventFormTemplate = (event) => {
 
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
         <button class="event__reset-btn" type="reset">Cancel</button>
+
+        <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" ${isFavorite ? isFavorite : ``}>
+        <label class="event__favorite-btn" for="event-favorite-1">
+          <span class="visually-hidden">Add to favorite</span>
+          <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
+            <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>
+          </svg>
+        </label>
       </header>
       <section class="event__details">
         <section class="event__section  event__section--offers">
@@ -128,18 +138,50 @@ const createEventFormTemplate = (event) => {
   );
 };
 
-export default class EventFormComponent extends AbstractComponent {
-  constructor(event) {
+export default class EventFormComponent extends AbstractSmartComponent {
+  constructor(event, isNewEvent = true) {
     super();
 
     this._event = event;
+    this._isNewEvent = isNewEvent;
+
+    this._newEvent = null;
+    this._submitHandler = null;
+    this._addToFavoritesHandler = null;
+
+    this._subscribeOnEvent();
+  }
+
+  recoveryListeners() {
+    this.setFormSubmitHandler(this._submitHandler);
+    this.setAddToFavoritesHandler(this._addToFavoritesHandler);
+    this._subscribeOnEvent();
+  }
+
+  rerender() {
+    super.rerender();
+
+    this.recoveryListeners();
   }
 
   getTempate() {
-    return createEventFormTemplate(this._event);
+    return createEventFormTemplate(this._event, this._isNewEvent, {newEvent: this._newEvent});
   }
 
   setFormSubmitHandler(cb) {
     this.getElement().addEventListener(`submit`, cb);
+  }
+
+  setAddToFavoritesHandler(cb) {
+    this.getElement().querySelector(`.event__favorite-btn`).addEventListener(`click`, cb);
+  }
+
+  _subscribeOnEvent() {
+    const eventTypeListContainer = this.getElement().querySelector(`.event__type-list`);
+
+    eventTypeListContainer.addEventListener(`change`, (evt) => {
+      this._newEvent = evt.target.value;
+      this.rerender();
+    });
   }
 }
