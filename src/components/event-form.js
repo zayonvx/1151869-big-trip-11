@@ -39,7 +39,7 @@ const createPhoto = (url) => {
 };
 
 
-const createEventFormTemplate = (event, isNewEvent = true, modification) => {
+const createEventFormTemplate = (event, modification) => {
   const transportTypesArray = Object.keys(EVENT_TYPES).filter((key) => EVENT_TYPES[key] === `transport`);
   const stopTypesArray = Object.keys(EVENT_TYPES).filter((key) => EVENT_TYPES[key] === `stop`);
   const {type, city, price, startDate, endDate, options, info, isFavorite} = event;
