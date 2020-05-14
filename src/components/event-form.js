@@ -37,11 +37,9 @@ const createPhoto = (url) => {
 };
 
 
-const createEventFormTemplate = (event, isNewEvent = true, changes) => {
+const createEventFormTemplate = (event) => {
   const {type, city, price, startDate, endDate, options, info, isFavorite} = event;
-  const {newEvent} = changes;
-  const newOptions = options[newEvent];
-  const optionMarkup = isNewEvent ? createOptionsListFrom(newOptions) : createOptionsListForm(options);
+  const optionMarkup = createOptionsListForm(options);
   const typeMarkupTransport = EVENT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
   const typeMarkupPoint = POINT_TYPES.map((it) => createTypeMarkup(it)).join(`\n`);
   const descriptionText = buildArray(info.description);

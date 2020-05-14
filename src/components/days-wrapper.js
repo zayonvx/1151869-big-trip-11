@@ -13,6 +13,6 @@ export default class DayWrapperComponent extends AbstractComponent {
   }
 
   clearContainer() {
-    return this.getElement().innerHTML = ``;
+    this.getElement().innerHTML = ``;
   }
 }

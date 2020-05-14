@@ -30,6 +30,6 @@ export default class TripDaysComponent extends AbstractComponent {
   }
 
   clearContainer() {
-    return this.getElement().querySelector(`.day__info`).innerHTML = ``;;
+    this.getElement().querySelector(`.day__info`).innerHTML = ``;
   }
 }

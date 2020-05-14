@@ -15,32 +15,32 @@ export default class PointController {
 
   render(event) {
 
-      const oldEventComponent = this._eventComponent;
-      const oldEventFormComponent = this._eventFormComponent;
+    const oldEventComponent = this._eventComponent;
+    const oldEventFormComponent = this._eventFormComponent;
 
-      this._eventComponent = new TripEventComponent(event);
-      this._eventFormComponent = new EventFormComponent(event, false);
+    this._eventComponent = new TripEventComponent(event);
+    this._eventFormComponent = new EventFormComponent(event, false);
 
-      this._eventComponent.setMoreButtonHandler(() => {
-        this._openEventForm();
-        document.addEventListener(`keydown`, this._onEscKeyDown);
-      });
+    this._eventComponent.setMoreButtonHandler(() => {
+      this._openEventForm();
+      document.addEventListener(`keydown`, this._onEscKeyDown);
+    });
 
-      this._eventFormComponent.setFormSubmitHandler(() => {
-        this._closeEventForm();
-        document.removeEventListener(`keydown`, this._onEscKeyDown);
-      });
+    this._eventFormComponent.setFormSubmitHandler(() => {
+      this._closeEventForm();
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
+    });
 
-      this._eventFormComponent.setAddToFavoritesHandler(() => {
-        this._onDataChange(this, event, Object.assign({}, event, {isFavorite: !event.isFavorite}));
-      });
+    this._eventFormComponent.setAddToFavoritesHandler(() => {
+      this._onDataChange(this, event, Object.assign({}, event, {isFavorite: !event.isFavorite}));
+    });
 
-      if (oldEventFormComponent && oldEventFormComponent) {
-        replace(this._eventComponent, oldEventComponent);
-        replace(this._eventFormComponent, oldEventFormComponent);
-      } else {
-        renderComponent(this._container, this._eventComponent);
-      }
+    if (oldEventFormComponent && oldEventFormComponent) {
+      replace(this._eventComponent, oldEventComponent);
+      replace(this._eventFormComponent, oldEventFormComponent);
+    } else {
+      renderComponent(this._container, this._eventComponent);
+    }
   }
 
   _openEventForm() {
@@ -55,8 +55,8 @@ export default class PointController {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
     if (isEscKey) {
-      this._closeEventForm;
+      this._closeEventForm();
     }
     document.removeEventListener(`keydown`, this._onEscKeyDown);
-  };
+  }
 }
