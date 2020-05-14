@@ -1,16 +1,39 @@
-export const EVENT_TYPES = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`];
-export const POINT_TYPES = [`Check-in`, `Sightseeing`, `Restaurant`];
+export const EVENT_TYPES = {
+  'taxi': `transport`,
+  'bus': `transport`,
+  'train': `transport`,
+  'ship': `transport`,
+  'transport': `transport`,
+  'drive': `transport`,
+  'flight': `transport`,
+  'check-in': `stop`,
+  'sightseeing': `stop`,
+  'restaurant': `stop`,
+};
 
 export const PRICE_MIN = 100;
 export const PRICE_MAX = 1000;
 
-export const EVENT_OPTIONS = [
-  {option: `Add luggage`, cost: 30},
-  {option: `Switch to comfort class`, cost: 100},
-  {option: `Add meal`, cost: 15},
-  {option: `Choose seats`, cost: 5},
-  {option: `Travel by train`, cost: 40},
-];
+// export const EVENT_OPTIONS = [
+//   {option: `Add luggage`, cost: 30},
+//   {option: `Switch to comfort class`, cost: 100},
+//   {option: `Add meal`, cost: 15},
+//   {option: `Choose seats`, cost: 5},
+//   {option: `Travel by train`, cost: 40},
+// ];
+
+export const EVENT_OPTIONS = {
+  'taxi': [{name: `uber`, description: `Order Uber`, price: 20}],
+  'bus': [{name: `meal`, description: `Add a meal`, price: 15}],
+  'train': [{name: `first-class`, description: `First Class`, price: 100}, {name: `child-meal`, description: `Meal for kid`, price: 15}],
+  'ship': [{name: `first-class`, description: `First Class`, price: 500}],
+  'transport': [{name: `private jet`, description: `Order a private jet`, price: 200}],
+  'drive': [{name: `order personal driver`, description: `order personal driver`, price: 500}],
+  'flight': [{name: `luxe-class`, description: `Switch to luxe class`, price: 100}, {name: `child-meal`, description: `Meal for kid`, price: 15}],
+  'check-in': [{name: `breakfast`, description: `Add breakfast`, price: 50}],
+  'sightseeing': [{name: `tickets`, description: `Book tickets`, price: 40}, {name: `lunch`, description: `Lunch in city`, price: 30}],
+  'restaurant': [{name: `private table`, description: `Order private table`, price: 150}],
+};
 
 export const DESCRIPTIONS = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.`,

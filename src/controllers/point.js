@@ -2,15 +2,23 @@ import TripEventComponent from "../components/event.js";
 import EventFormComponent from "../components/event-form.js";
 import {renderComponent, replace} from "../utils/render.js";
 
+const Mode = {
+  DEFAULT: `default`,
+  EDIT: `edit`,
+};
+
 
 export default class PointController {
-  constructor(container, onDataChange) {
+  constructor(container, onDataChange, onViewChange) {
     this._container = container;
     this._eventComponent = null;
     this._eventFormComponent = null;
 
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
     this._onDataChange = onDataChange;
+    this._onViewChange = onViewChange;
+
+    this._mode = Mode.DEFAULT;
   }
 
   render(event) {
@@ -44,11 +52,14 @@ export default class PointController {
   }
 
   _openEventForm() {
+    this._onViewChange();
     replace(this._eventFormComponent, this._eventComponent);
+    this._mode = Mode.EDIT;
   }
 
   _closeEventForm() {
     replace(this._eventComponent, this._eventFormComponent);
+    this._mode = Mode.DEFAULT;
   }
 
   _onEscKeyDown(evt) {
@@ -58,5 +69,11 @@ export default class PointController {
       this._closeEventForm();
     }
     document.removeEventListener(`keydown`, this._onEscKeyDown);
+  }
+
+  setDefaultView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._closeEventForm();
+    }
   }
 }

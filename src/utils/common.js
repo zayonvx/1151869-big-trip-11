@@ -82,7 +82,7 @@ export const getTripInfoPrice = (events) => {
     let itteractionPrice = events[i].price;
     overallPrice += itteractionPrice;
     for (let j = 0; j < events[i].options.length; j++) {
-      optionsPrice += events[i].options[j].cost;
+      optionsPrice += events[i].options[j].price;
     }
   }
   return overallPrice + optionsPrice;
@@ -104,3 +104,11 @@ export const buildUniqueArray = (array) => {
   const uniqueSet = new Set(array);
   return Array.from(uniqueSet);
 };
+
+export const ucFirst = (str) => {
+  if (!str) {
+    return str;
+  }
+  return str[0].toUpperCase() + str.slice(1);
+};
+
