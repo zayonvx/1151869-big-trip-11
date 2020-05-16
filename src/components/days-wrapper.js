@@ -11,4 +11,8 @@ export default class DayWrapperComponent extends AbstractComponent {
   getTempate() {
     return createTripDaysWrapper();
   }
+
+  clearContainer() {
+    this.getElement().innerHTML = ``;
+  }
 }

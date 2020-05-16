@@ -1,19 +1,16 @@
-import {formatDateDiff, formatDate} from "../utils/common.js";
+import {formatDateDiff, formatDate, ucFirst} from "../utils/common.js";
 import AbstractComponent from "./abstract-component.js";
 
 const createOptionsList = (options) => {
-  return options
-  .slice(0, options.length)
-    .map((it) => {
-      const {option, cost} = it;
-      return (
-        `<li class="event__offer">
-          <span class="event__offer-title">${option}</span>
-          &plus;
-          &euro;&nbsp;<span class="event__offer-price">${cost}</span>
-        </li>`
-      );
-    }).join(`\n`);
+  return options.map((option) => {
+    return (
+      `<li class="event__offer">
+        <span class="event__offer-title">${option.name}</span>
+        &plus;
+        &euro;&nbsp;<span class="event__offer-price">${option.price}</span>
+      </li>`
+    );
+  }).join(`\n`);
 };
 
 const createTripEventTemplate = (event) => {
@@ -26,7 +23,7 @@ const createTripEventTemplate = (event) => {
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type.toLowerCase()}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">${type} ${isEventType} ${city}</h3>
+      <h3 class="event__title">${ucFirst(type)} ${isEventType} ${city}</h3>
 
       <div class="event__schedule">
         <p class="event__Date">
@@ -63,7 +60,7 @@ export default class TripEventComponent extends AbstractComponent {
     return createTripEventTemplate(this._event);
   }
 
-  setMoreButtonHandler(cb) {
-    this.getElement(`.event__rollup-btn`).addEventListener(`click`, cb);
+  setMoreButtonHandler(handler) {
+    this.getElement(`.event__rollup-btn`).addEventListener(`click`, handler);
   }
 }

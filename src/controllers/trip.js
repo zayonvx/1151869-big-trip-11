@@ -1,12 +1,11 @@
+import PointController from "./point.js";
 import DayWrapperComponent from "../components/days-wrapper.js";
 import SortComponent from "../components/sort.js";
-import TripEventComponent from "../components/event.js";
-import EventFormComponent from "../components/event-form.js";
-import {renderComponent, replace, RenderPosition} from "../utils/render.js";
 import TripDaysComponent from "../components/day.js";
+import {renderComponent, RenderPosition} from "../utils/render.js";
+import {buildUniqueArray} from "../utils/common.js";
 import {sortData} from "../const.js";
 import {sortFilters} from "../mock/sort.js";
-import {buildUniqueArray} from "../utils/common.js";
 
 export default class TripController {
   constructor(container) {
@@ -14,43 +13,14 @@ export default class TripController {
 
     this._daysWrapper = new DayWrapperComponent();
     this._sortComponent = new SortComponent(sortFilters);
+
+    this._showedPointControllers = [];
+
+    this._onDataChange = this._onDataChange.bind(this);
+    this._onViewChange = this._onViewChange.bind(this);
   }
 
   render(events) {
-    const renderEvent = (event, day) => {
-      const eventComponent = new TripEventComponent(event);
-      const eventFormComponent = new EventFormComponent(event);
-      const eventContainer = day.getSelector(`.trip-events__list`);
-
-      const openEventForm = () => {
-        replace(eventFormComponent, eventComponent);
-      };
-
-      const closeEventForm = () => {
-        replace(eventComponent, eventFormComponent);
-      };
-
-      const onEscKeyDown = (evt) => {
-        const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-        if (isEscKey) {
-          closeEventForm();
-        }
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      };
-
-      eventComponent.setMoreButtonHandler(() => {
-        openEventForm();
-        document.addEventListener(`keydown`, onEscKeyDown);
-      });
-
-      eventFormComponent.setFormSubmitHandler(() => {
-        closeEventForm();
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      });
-
-      renderComponent(eventContainer, eventComponent);
-    };
 
     renderComponent(this._container, this._sortComponent, RenderPosition.AFTERBEGIN);
     renderComponent(this._container, this._daysWrapper);
@@ -68,7 +38,10 @@ export default class TripController {
           const dayComponent = new TripDaysComponent(day, index);
 
           data.filter(({startDate}) => new Date(startDate).toDateString() === day).forEach((it) => {
-            renderEvent(it, dayComponent);
+            const eventContainer = dayComponent.getEventСontainer();
+            const pointController = new PointController(eventContainer, this._onDataChange, this._onViewChange);
+            pointController.render(it);
+            this._showedPointControllers = this._showedPointControllers.concat(pointController);
           });
 
           renderComponent(dayWrapperContainer, dayComponent);
@@ -76,8 +49,13 @@ export default class TripController {
       } else {
         const dayComponent = new TripDaysComponent();
 
-        dayComponent.getSelector(`.day__info`).innerHTML = ``;
-        data.forEach((it) => renderEvent(it, dayComponent));
+        dayComponent.clearContainer();
+        data.forEach((it) => {
+          const eventContainer = dayComponent.getEventСontainer();
+          const pointController = new PointController(eventContainer, this._onDataChange, this._onViewChange);
+          pointController.render(it);
+          this._showedPointControllers = this._showedPointControllers.concat(pointController);
+        });
         renderComponent(dayWrapperContainer, dayComponent);
       }
     };
@@ -103,8 +81,24 @@ export default class TripController {
           break;
       }
 
-      this._daysWrapper.getElement().innerHTML = ``;
+      this._daysWrapper.clearContainer();
       renderEvents(sortedEvents, isSortDefault);
     });
+  }
+
+  _onDataChange(pointController, oldData, newData) {
+    const index = this._events.findIndex((event) => event === oldData);
+
+    if (index === -1) {
+      return;
+    }
+
+    this._events = [].concat(this._events.slice(0, index), newData, this._events.slice(index + 1));
+
+    pointController.render(this._events[index]);
+  }
+
+  _onViewChange() {
+    this._showedPointControllers.forEach((controller) => controller.setDefaultView());
   }
 }

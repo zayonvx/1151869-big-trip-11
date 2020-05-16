@@ -25,7 +25,11 @@ export default class TripDaysComponent extends AbstractComponent {
     return createTripDaysTemplate(this._day, this._index);
   }
 
-  getSelector(selector) {
-    return this.getElement().querySelector(selector);
+  getEventСontainer() {
+    return this.getElement().querySelector(`.trip-events__list`);
+  }
+
+  clearContainer() {
+    this.getElement().querySelector(`.day__info`).innerHTML = ``;
   }
 }
