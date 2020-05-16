@@ -28,7 +28,7 @@ const generateEvent = () => {
     city: getRandomArrayItem(CITIES),
     options: generateOptions(OPTIONS_COUNT, eventType),
     info: {
-      description: buildArray(DESCRIPTIONS),
+      description: buildArray(DESCRIPTIONS).join(` `),
       photos: buildArray(PHOTOS),
     },
     price: getRandomIntegerNumber(PRICE_MIN, PRICE_MAX),
