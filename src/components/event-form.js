@@ -1,5 +1,5 @@
 import {EVENT_TYPES, EVENT_OPTIONS} from "../const.js";
-import {formatDate, buildArray, ucFirst} from "../utils/common.js";
+import {formatDate, ucFirst} from "../utils/common.js";
 import AbstractSmartComponent from "./abstract-smart-component.js";
 
 const createEventTypeItems = (eventNames, checkedEventName) => {
