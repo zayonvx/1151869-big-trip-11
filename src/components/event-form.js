@@ -1,3 +1,5 @@
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.min.css";
 import {EVENT_TYPES, EVENT_OPTIONS} from "../const.js";
 import {formatDate, ucFirst} from "../utils/common.js";
 import AbstractSmartComponent from "./abstract-smart-component.js";
@@ -151,6 +153,11 @@ export default class EventFormComponent extends AbstractSmartComponent {
     this._submitHandler = null;
     this._addToFavoritesHandler = null;
 
+    this._flatpickr = null;
+
+    this._subscribeOnEvents();
+    this._applyFlatpickr();
+
     this._subscribeOnEvents();
   }
 
@@ -164,6 +171,7 @@ export default class EventFormComponent extends AbstractSmartComponent {
     super.rerender();
 
     this.recoveryListeners();
+    this._applyFlatpickr();
   }
 
   getTempate() {
@@ -189,5 +197,27 @@ export default class EventFormComponent extends AbstractSmartComponent {
       this._newType = evt.target.value;
       this.rerender();
     });
+  }
+
+  _applyFlatpickr() {
+    const startTimeElement = this.getElement().querySelector(`#event-start-time-1`);
+    const endTimeElement = this.getElement().querySelector(`#event-end-time-1`);
+
+    if (this._flatpickr) {
+      this._flatpickr.startDate.destroy();
+      this._flatpickr.endDate.destroy();
+      this._flatpickr = null;
+    }
+
+    const config = {
+      altInput: true,
+      allowInput: true,
+      altFormat: `d/m/yy H:i`,
+      enableTime: true
+    };
+
+    this._flatpickr = {};
+    this._flatpickr.startDate = flatpickr(startTimeElement, Object.assign(config, {defaultDate: this._event.startDate}));
+    this._flatpickr.endDate = flatpickr(endTimeElement, Object.assign(config, {defaultDate: this._event.endDate}));
   }
 }

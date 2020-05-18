@@ -1,4 +1,9 @@
+import moment from 'moment';
+import momentDurationFormatSetup from 'moment-duration-format';
+
 import {MONTHS} from "../const";
+
+momentDurationFormatSetup(moment);
 
 export const getRandomArrayItem = (array) => {
   const randomIndex = getRandomIntegerNumber(0, array.length);
@@ -25,50 +30,31 @@ export const buildArray = function (array) {
 };
 
 export const getRandomDate = (date) => {
-  const targetDate = new Date(date);
+  const targetDate = new Date();
+  const day = date ? date.getDate() : targetDate.getDate();
+  const hour = date ? date.getHours() : targetDate.getHours();
+  const min = date ? date.getMinutes() : targetDate.getMinutes();
   const diffDays = getRandomIntegerNumber(0, 7);
   const diffMinutes = getRandomIntegerNumber(0, 60);
   const diffHours = getRandomIntegerNumber(0, 24);
 
-  targetDate.setDate(targetDate.getDate() + diffDays);
-  targetDate.setDate(targetDate.getHours() + diffHours);
-  targetDate.setMinutes(targetDate.getMinutes() + diffMinutes);
+  targetDate.setDate(day + diffDays);
+  targetDate.setHours(hour + diffHours);
+  targetDate.setMinutes(min + diffMinutes);
 
   return targetDate;
 };
 
-const displayDateFormat = (value) => {
-  return `${value}`.padStart(2, `0`);
+export const formatDate = (date) => {
+  return moment(date).format(`hh:mm`);
 };
 
-export const formatDate = (date, forForm = false) => {
-  const years = displayDateFormat(date.getUTCFullYear()) % 2000;
-  const months = displayDateFormat(date.getMonth());
-  const days = displayDateFormat(date.getDate());
-  const hours = displayDateFormat(date.getHours() % 12);
-  const minutes = displayDateFormat(date.getMinutes());
+export const formatDateDiff = (start, end) => {
+  const dateEnd = moment(end);
+  const dateStart = moment(start);
+  const duration = moment.duration(dateEnd.diff(dateStart));
 
-  return forForm ? `${days}/${months}/${years} ${hours}:${minutes}` : `${hours}:${minutes}`;
-};
-
-export const formatDateDiff = (begin, end) => {
-  let minutes = (end - begin) / (1000 * 60);
-  let days;
-  let hours;
-  let result = ``;
-  if (minutes >= 24 * 60) {
-    days = displayDateFormat(Math.floor(minutes / (60 * 24)));
-    minutes = minutes % (60 * 24);
-    result += `${days}D `;
-  }
-  if (minutes >= 60) {
-    hours = displayDateFormat(Math.floor(minutes / 60));
-    minutes = minutes % 60;
-    result += `${hours}H `;
-  }
-  minutes = displayDateFormat(minutes);
-  result += `${minutes}M`;
-  return result;
+  return duration.format(`d[D] h[H] m[M]`, {trim: `all`});
 };
 
 export const getTripInfoTitle = (events) => {
