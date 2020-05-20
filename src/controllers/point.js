@@ -1,6 +1,6 @@
 import TripEventComponent from "../components/event.js";
 import EventFormComponent from "../components/event-form.js";
-import {renderComponent, replace} from "../utils/render.js";
+import {renderComponent, replace, remove} from "../utils/render.js";
 
 const Mode = {
   DEFAULT: `default`,
@@ -75,5 +75,11 @@ export default class PointController {
     if (this._mode !== Mode.DEFAULT) {
       this._closeEventForm();
     }
+  }
+
+  kill() {
+    remove(this._eventComponent);
+    remove(this._eventFormComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 }

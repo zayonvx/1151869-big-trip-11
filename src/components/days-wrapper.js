@@ -8,7 +8,7 @@ const createTripDaysWrapper = () => {
 };
 
 export default class DayWrapperComponent extends AbstractComponent {
-  getTempate() {
+  getTemplate() {
     return createTripDaysWrapper();
   }
 

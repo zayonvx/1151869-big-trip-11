@@ -21,7 +21,7 @@ export default class TripComponent extends AbstractComponent {
     this._events = events;
   }
 
-  getTempate() {
+  getTemplate() {
     return createTripTemplate(this._events);
   }
 }

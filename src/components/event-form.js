@@ -174,7 +174,7 @@ export default class EventFormComponent extends AbstractSmartComponent {
     this._applyFlatpickr();
   }
 
-  getTempate() {
+  getTemplate() {
     return createEventFormTemplate(this._event, {newType: this._newType});
   }
 

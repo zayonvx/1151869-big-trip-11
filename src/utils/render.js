@@ -3,9 +3,9 @@ export const RenderPosition = {
   BEFOREBEGIN: `beforebegin`
 };
 
-export const createElement = (template) => {
+export const createElement = (Template) => {
   const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
+  newElement.innerHTML = Template;
 
   return newElement.firstChild;
 };

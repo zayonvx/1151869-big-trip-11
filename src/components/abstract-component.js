@@ -9,13 +9,13 @@ export default class AbstractComponent {
     this._element = null;
   }
 
-  getTempate() {
+  getTemplate() {
     throw new Error(`Abstract method not implemented: getTemplate`);
   }
 
   getElement() {
     if (!this._element) {
-      this._element = createElement(this.getTempate());
+      this._element = createElement(this.getTemplate());
     }
 
     return this._element;

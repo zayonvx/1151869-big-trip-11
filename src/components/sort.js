@@ -34,7 +34,7 @@ export default class SortComponent extends AbstractComponent {
     this._currentSortType = sortData.EVENT;
   }
 
-  getTempate() {
+  getTemplate() {
     return createSortTemplate(this._sortFilters);
   }
 

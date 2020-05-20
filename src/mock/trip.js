@@ -6,7 +6,7 @@ const EVENTS_COUNT_MAX = 20;
 const OPTIONS_COUNT_MIN = 0;
 const OPTIONS_COUNT_MAX = 3;
 
-const EVENTS_COUNT = getRandomIntegerNumber(EVENTS_COUNT_MIN, EVENTS_COUNT_MAX);
+export const EVENTS_COUNT = getRandomIntegerNumber(EVENTS_COUNT_MIN, EVENTS_COUNT_MAX);
 
 
 const generateOptions = (optionsCount, eventName) => {
@@ -24,6 +24,7 @@ const generateEvent = () => {
   const OPTIONS_COUNT = getRandomIntegerNumber(OPTIONS_COUNT_MIN, OPTIONS_COUNT_MAX);
 
   return {
+    id: String(new Date() + Math.random()),
     type: eventType,
     city: getRandomArrayItem(CITIES),
     options: generateOptions(OPTIONS_COUNT, eventType),
@@ -38,10 +39,10 @@ const generateEvent = () => {
   };
 };
 
-const generateEvents = (count) => {
+export const generateEvents = (count) => {
   return new Array(count)
   .fill(``).map(() => generateEvent())
   .sort((a, b) => a.startDate - b.startDate);
 };
 
-export const EVENTS = generateEvents(EVENTS_COUNT).slice().sort((a, b) => a.startDate.getMonth() - b.startDate.getMonth());
+
