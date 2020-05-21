@@ -6,6 +6,7 @@ import {generateEvents, EVENTS_COUNT} from "./mock/trip.js";
 import {renderComponent, RenderPosition} from "./utils/render.js";
 import TripController from "./controllers/trip.js";
 import FilterController from "./controllers/filter.js";
+import SortController from "./controllers/sort.js";
 
 const events = generateEvents(EVENTS_COUNT).slice().sort((a, b) => a.startDate.getMonth() - b.startDate.getMonth());
 
@@ -27,5 +28,9 @@ filterController.render();
 
 
 const tripContainer = document.querySelector(`.trip-events`);
+
+const sortController = new SortController(tripContainer, pointsModel);
+sortController.render();
+
 const tripController = new TripController(tripContainer, pointsModel);
 tripController.render();

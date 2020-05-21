@@ -1,20 +1,23 @@
-import {filterData} from "../const.js";
+import {filterData, sortData} from "../const.js";
 import {getFilteredEvents} from "../utils/filter.js";
+import {getSortedEvents} from "../utils/sort.js";
 
 export default class PointsModel {
   constructor() {
     this._events = [];
 
     this._filterActive = filterData.EVERYTHING;
+    this._sortActive = sortData.EVENT;
 
     this._dataChangeHandlers = [];
     this._filterChangeHandlers = [];
+    this._sortChangeHandlers = [];
   }
 
   getEvents() {
     const filteredEvents = getFilteredEvents(this._events, this._filterActive);
-
-    return filteredEvents;
+    const sortedEvents = getSortedEvents(filteredEvents, this._sortActive);
+    return sortedEvents;
   }
 
   getEventsAll() {
@@ -29,6 +32,11 @@ export default class PointsModel {
   setFilter(filter) {
     this._filterActive = filter;
     this._callHandlers(this._filterChangeHandlers);
+  }
+
+  setSort(sort) {
+    this._sortActive = sort;
+    this._callHandlers(this._sortChangeHandlers);
   }
 
   updateEvent(id, event) {
@@ -51,6 +59,10 @@ export default class PointsModel {
 
   setFilterChangeHandler(handler) {
     this._filterChangeHandlers.push(handler);
+  }
+
+  setSortChangeHandler(handler) {
+    this._sortChangeHandlers.push(handler);
   }
 
   _callHandlers(handlers) {
