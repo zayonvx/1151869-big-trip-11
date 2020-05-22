@@ -1,5 +1,5 @@
 import {sortData} from "../const.js";
-import {renderComponent, replace} from "../utils/render.js";
+import {renderComponent, replace, remove, RenderPosition} from "../utils/render.js";
 import SortComponent from "../components/sort.js";
 
 export default class SortController {
@@ -34,12 +34,13 @@ export default class SortController {
     if (oldComponent) {
       replace(this._sortComponent, oldComponent);
     } else {
-      renderComponent(container, this._sortComponent);
+      renderComponent(container, this._sortComponent, RenderPosition.AFTERBEGIN);
     }
   }
 
   setDefaultView() {
     this._sortActive = sortData.EVENT;
+    this._pointsModel.setSort(this._activeSort);
     this.render();
   }
 
@@ -50,5 +51,11 @@ export default class SortController {
 
   _onDataChange() {
     this.render();
+  }
+
+  kill() {
+    remove(this._sortComponent);
+    this._sortActive = sortData.EVENT;
+    this._sortComponent = null;
   }
 }

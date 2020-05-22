@@ -1,10 +1,26 @@
 import TripEventComponent from "../components/event.js";
 import EventFormComponent from "../components/event-form.js";
-import {renderComponent, replace, remove} from "../utils/render.js";
+import {renderComponent, replace, remove, RenderPosition} from "../utils/render.js";
 
-const Mode = {
+export const Mode = {
   DEFAULT: `default`,
   EDIT: `edit`,
+  CREATE: `create`,
+};
+
+export const EmptyEvent = {
+  id: String(new Date() + Math.random()),
+  type: `train`,
+  city: ``,
+  options: [],
+  info: {
+    description: ` `,
+    photos: [],
+  },
+  price: ``,
+  startDate: new Date(),
+  endDate: new Date(),
+  isFavorite: false,
 };
 
 
@@ -21,21 +37,27 @@ export default class PointController {
     this._mode = Mode.DEFAULT;
   }
 
-  render(event) {
+  render(event, mode) {
+    this._mode = mode;
 
     const oldEventComponent = this._eventComponent;
     const oldEventFormComponent = this._eventFormComponent;
 
     this._eventComponent = new TripEventComponent(event);
-    this._eventFormComponent = new EventFormComponent(event);
+    this._eventFormComponent = new EventFormComponent(event, this._mode);
 
     this._eventComponent.setMoreButtonHandler(() => {
       this._openEventForm();
       document.addEventListener(`keydown`, this._onEscKeyDown);
     });
 
+    this._eventFormComponent.setResetButtonHandler(() => {
+      this._onDataChange(this, event, null);
+    });
+
     this._eventFormComponent.setFormSubmitHandler(() => {
-      this._closeEventForm();
+      const data = this._eventFormComponent.getData();
+      this._onDataChange(this, event, data);
       document.removeEventListener(`keydown`, this._onEscKeyDown);
     });
 
@@ -43,14 +65,26 @@ export default class PointController {
       this._onDataChange(this, event, Object.assign({}, event, {isFavorite: !event.isFavorite}));
     });
 
-    if (oldEventFormComponent && oldEventFormComponent) {
-      replace(this._eventComponent, oldEventComponent);
-      replace(this._eventFormComponent, oldEventFormComponent);
-    } else {
-      renderComponent(this._container, this._eventComponent);
+    switch (mode) {
+      case Mode.DEFAULT:
+        if (oldEventFormComponent && oldEventComponent) {
+          replace(this._eventComponent, oldEventComponent);
+          replace(this._eventFormComponent, oldEventFormComponent);
+          this._closeEventForm();
+        } else {
+          renderComponent(this._container, this._eventComponent);
+        }
+        break;
+      case Mode.CREATE:
+        if (oldEventFormComponent && oldEventComponent) {
+          remove(oldEventComponent);
+          remove(oldEventFormComponent);
+        }
+        renderComponent(this._container, this._eventFormComponent, RenderPosition.AFTERBEGIN);
+        document.addEventListener(`keydown`, this._onEscKeyDown);
+        break;
     }
   }
-
   _openEventForm() {
     this._onViewChange();
     replace(this._eventFormComponent, this._eventComponent);
@@ -66,6 +100,9 @@ export default class PointController {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
     if (isEscKey) {
+      if (this._mode === Mode.CREATE) {
+        this._onDataChange(this, event, null);
+      }
       this._closeEventForm();
     }
     document.removeEventListener(`keydown`, this._onEscKeyDown);
