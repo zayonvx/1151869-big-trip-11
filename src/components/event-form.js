@@ -3,6 +3,7 @@ import "flatpickr/dist/flatpickr.min.css";
 import {EVENT_TYPES, EVENT_OPTIONS} from "../const.js";
 import {formatDate, ucFirst} from "../utils/common.js";
 import AbstractSmartComponent from "./abstract-smart-component.js";
+import {encode} from "he";
 
 const createEventTypeItems = (eventNames, checkedEventName) => {
   return eventNames.map((eventName) => {
@@ -40,11 +41,62 @@ const createPhoto = (url) => {
   );
 };
 
+const parseOptions = (data) => {
+  const optionKeys = Array.from(data.keys()).filter((key) => key.includes(`event-offer-`));
+
+  return optionKeys.map((key) => {
+    const optionName = key.substr(`event-offer-`.length).trim();
+
+    return optionName;
+  });
+};
+
+const createUpdatedOptions = (options, optionNames) => {
+  const optionsCopy = options.reduce((acc, option) => [...acc, Object.assign({}, option)], []);
+  optionNames.forEach((optionName) => {
+    const option = optionsCopy.find((item) => item.name === optionName);
+    option.checked = true;
+  });
+
+  return optionsCopy;
+};
+
+const parseFormData = (data) => {
+  const optionsList = parseOptions(data);
+  const id = String(new Date() + Math.random());
+  const type = data.get(`event-type`);
+  const city = data.get(`event-destination`);
+  const options = createUpdatedOptions(EVENT_OPTIONS[type], optionsList);
+  const description = ``;
+  const photos = [];
+  const price = data.get(`event-price`);
+  const startDate = new Date(data.get(`event-start-time`));
+  const endDate = new Date(data.get(`event-end-time`));
+
+  return {
+    id,
+    type,
+    city,
+    options,
+    info: {
+      description,
+      photos,
+    },
+    price,
+    startDate,
+    endDate,
+  };
+};
+
 
 const createEventFormTemplate = (event, modification) => {
   const transportTypesArray = Object.keys(EVENT_TYPES).filter((key) => EVENT_TYPES[key] === `transport`);
   const stopTypesArray = Object.keys(EVENT_TYPES).filter((key) => EVENT_TYPES[key] === `stop`);
   const {type, city, price, startDate, endDate, options, info, isFavorite} = event;
+  const nonSafetyCity = city;
+  const cityData = encode(nonSafetyCity);
+  const nonSafetyPrice = price;
+  const priceData = encode(nonSafetyPrice.toString());
   const {newType} = modification;
   const newEventOptions = EVENT_OPTIONS[newType];
   const optionMarkup = createOptionsListForm(newEventOptions || options);
@@ -80,7 +132,7 @@ const createEventFormTemplate = (event, modification) => {
           <label class="event__label  event__type-output" for="event-destination-1">
           ${ucFirst(typeEventText)} to
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${city ? city : ``}" list="destination-list-1">
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${cityData ? cityData : ``}" list="destination-list-1">
           <datalist id="destination-list-1">
             <option value="Amsterdam"></option>
             <option value="Geneva"></option>
@@ -106,7 +158,7 @@ const createEventFormTemplate = (event, modification) => {
             <span class="visually-hidden">Price</span>
             &euro;
           </label>
-          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${price ? price : ``}">
+          <input class="event__input  event__input--price" id="event-price-1" type="number" min="0" name="event-price" value="${priceData ? priceData : ``}">
         </div>
 
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -157,8 +209,6 @@ export default class EventFormComponent extends AbstractSmartComponent {
 
     this._subscribeOnEvents();
     this._applyFlatpickr();
-
-    this._subscribeOnEvents();
   }
 
   recoveryListeners() {
@@ -174,7 +224,7 @@ export default class EventFormComponent extends AbstractSmartComponent {
     this._applyFlatpickr();
   }
 
-  getTempate() {
+  getTemplate() {
     return createEventFormTemplate(this._event, {newType: this._newType});
   }
 
@@ -190,6 +240,19 @@ export default class EventFormComponent extends AbstractSmartComponent {
     this._addToFavoritesHandler = handler;
   }
 
+  setResetButtonHandler(handler) {
+    this.getElement().querySelector(`.event__reset-btn`).addEventListener(`click`, handler);
+
+    this._resetButtonHandler = handler;
+  }
+
+  getData() {
+    const form = this.getElement();
+    const data = new FormData(form);
+
+    return parseFormData(data);
+  }
+
   _subscribeOnEvents() {
     const eventTypeList = this.getElement().querySelector(`.event__type-list`);
 
@@ -198,6 +261,7 @@ export default class EventFormComponent extends AbstractSmartComponent {
       this.rerender();
     });
   }
+
 
   _applyFlatpickr() {
     const startTimeElement = this.getElement().querySelector(`#event-start-time-1`);

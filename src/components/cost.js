@@ -17,7 +17,7 @@ export default class CostComponent extends AbstractComponent {
     this._events = events;
   }
 
-  getTempate() {
+  getTemplate() {
     return createCostTemplate(this._events);
   }
 }

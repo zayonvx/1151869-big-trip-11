@@ -14,14 +14,6 @@ export const EVENT_TYPES = {
 export const PRICE_MIN = 100;
 export const PRICE_MAX = 1000;
 
-// export const EVENT_OPTIONS = [
-//   {option: `Add luggage`, cost: 30},
-//   {option: `Switch to comfort class`, cost: 100},
-//   {option: `Add meal`, cost: 15},
-//   {option: `Choose seats`, cost: 5},
-//   {option: `Travel by train`, cost: 40},
-// ];
-
 export const EVENT_OPTIONS = {
   'taxi': [{name: `uber`, description: `Order Uber`, price: 20}],
   'bus': [{name: `meal`, description: `Add a meal`, price: 15}],
@@ -76,4 +68,10 @@ export const sortData = {
   EVENT: `event`,
   TIME: `time`,
   PRICE: `price`
+};
+
+export const filterData = {
+  EVERYTHING: `everything`,
+  FUTURE: `future`,
+  PAST: `past`
 };

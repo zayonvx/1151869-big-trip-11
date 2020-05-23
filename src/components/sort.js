@@ -1,7 +1,7 @@
 import AbstractComponent from "./abstract-component";
 import {sortData} from "../const.js";
 
-const sortTemplate = (sortFilters) => sortFilters.map(({name, isChecked}) => {
+const createSortMarkup = (sortFilters) => sortFilters.map(({name, isChecked}) => {
   const nameLower = name.toLowerCase();
   return (
     `<div class="trip-sort__item  trip-sort__item--${nameLower}">
@@ -21,7 +21,7 @@ const createSortTemplate = (name, isChecked) => {
     `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
       <span class="trip-sort__item  trip-sort__item--day">Day</span>
 
-      ${sortTemplate(name, isChecked)}
+      ${createSortMarkup(name, isChecked)}
       <span class="trip-sort__item  trip-sort__item--offers">Offers</span>
     </form>`
   );
@@ -34,11 +34,11 @@ export default class SortComponent extends AbstractComponent {
     this._currentSortType = sortData.EVENT;
   }
 
-  getTempate() {
+  getTemplate() {
     return createSortTemplate(this._sortFilters);
   }
 
-  setOnSortClick(handler) {
+  setSortChangeHandler(handler) {
     this.getElement().addEventListener(`change`, (evt) => {
       if (evt.target.tagName !== `INPUT`) {
         return;
